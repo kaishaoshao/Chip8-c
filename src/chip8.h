@@ -108,19 +108,19 @@ enum system_state
 /// ***************************Chip-8系统结构体************************************* ///
 typedef struct chip8_system
 {
-    byte memory[CHIP8_MEMORY_SIZE];  // chip-8 内存
-    byte register[16];               // 16个8位寄存器
-    word index_register;             // 16位索引寄存器
-    word pc;                         // 程序计数器
+    byte memory[CHIP8_MEMORY_SIZE];  // 4 KB 内存 存储程序和数据
+    byte register[16];               // 16 个 8 位通用寄存器（V0-VF）
+    word index_register;             // 6 位索引寄存器（I），用于存储内存地址。
+    word pc;                         // 程序计数器，指向当前指令的地址。
     word opcode;                     // 当前操作码
-    word stack[16];                  // 当前调用栈
+    word stack[16];                  // 调用栈，用于存储返回地址。
     byte sp;                         // 调用栈指针
     byte delay_timer;                // 延迟定时器
     byte sound_timer;                // 音频定时器
-    dword display[CHIP8_DISPLAY_HEIGHT][CHIP8_DISPLAY_WIDTH]; // 显示
-    byte keys[CHIP8_KEY_SIZE];       // 键盘状态
-    byte display_refresh_flags;      // 刷新标志
-    enum system_state state;         // 系统状态
+    dword display[CHIP8_DISPLAY_HEIGHT][CHIP8_DISPLAY_WIDTH]; // 显示缓冲区，存储像素状态。
+    byte keys[CHIP8_KEY_SIZE];       // 键盘状态，记录按键是否按下。
+    byte display_refresh_flags;      // 标志是否需要刷新显示。
+    enum system_state state;         // 系统状态（退出、运行、暂停）
 
 }CHIP8;
 /// ****************************************************************************** ///
