@@ -117,11 +117,10 @@ typedef struct chip8_system
     byte sp;                         // 调用栈指针
     byte delay_timer;                // 延迟定时器
     byte sound_timer;                // 音频定时器
-
-    // chip-8 显示
-    dword display[CHIP8_DISPLAY_HEIGHT][CHIP8_DISPLAY_WIDTH];
-    // chip-8 键盘
-    byte keypad[CHIP8_KEY_SIZE];
+    dword display[CHIP8_DISPLAY_HEIGHT][CHIP8_DISPLAY_WIDTH]; // 显示
+    byte keys[CHIP8_KEY_SIZE];       // 键盘状态
+    byte display_refresh_flags;      // 刷新标志
+    enum system_state state;         // 系统状态
 
 }CHIP8;
 /// ****************************************************************************** ///
