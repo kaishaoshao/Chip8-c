@@ -127,25 +127,35 @@ typedef struct chip8_system
 
 
 /// *********************************chip8函数声明********************************* ///
-CHIP8 *chip8_init();  // 初始化chip8系统
+CHIP8 *chip8_init();                                    // 初始化chip8系统
 byte chip8_load_program(CHIP8 *chip8, const char *rom); // 加载程序
-void chip8_emulate_cycle(CHIP8 *chip8); // 模拟一个周期
-void chip8_timer(CHIP8 *chip8);         // 执行一个CPU周期
+void chip8_emulate_cycle(CHIP8 *chip8);                 // 模拟一个周期
+void chip8_timer(CHIP8 *chip8);                         // 执行一个CPU周期
 /// ****************************************************************************** ///
 
 
 /// *********************************操作码宏************************************** ///
-#define _OPCODE     (chip8->opcode)
-#define X(opcode)   (byte)((0x0F00 & opcode) >> 8)
-#define Y(opcode)   (byte)((0x00F0 & opcode) >> 4)
-#define N(opcode)   (byte)(0x000F & opcode)
-#define NN(opcode)  (byte)(0x00FF & opcode)
-#define NNN(opcode) (word)(0x0FFF & opcode)
+/// CHIP-8 16位操作码格式：0xNNNN
+/// N 为 4位16进制码
+/// 操作码的格式通常为 0xOPXY 或 0xOPNN，其中：
+/// OP：操作码的高 4 位，表示指令类型。
+/// X 和 Y：寄存器索引（4 位）。
+/// NN：8 位常量。
+/// NNN：12 位地址。
+#define _OPCODE     (chip8->opcode)                 // 获取当前操作码
+#define X(opcode)   (byte)((0x0F00 & opcode) >> 8)  // 获取操作码中的第二个4位X
+#define Y(opcode)   (byte)((0x00F0 & opcode) >> 4)  // 获取操作码中的第三个4位Y
+#define N(opcode)   (byte)(0x000F & opcode)         // 获取操作码中的最低4位N
+#define NN(opcode)  (byte)(0x00FF & opcode)         // 获取操作码中的最低8位NN
+#define NNN(opcode) (word)(0x0FFF & opcode)         // 获取操作码中的最低12位NNN
 
-#define VX          (chip8->register[X(_OPCODE)])
-#define VY          (chip8->register[Y(_OPCODE)])
-#define _VF          (chip8->register[0xF])
-#define _I           (chip8->index_register)
+/// 操作码中的寄存器
+/// VF 是 CHIP-8 的特殊寄存器，通常用于存储标志位（如进位、借位）
+/// I  是 CHIP-8 的 16 位索引寄存器，通常用于存储内存地址
+#define VX          (chip8->register[X(_OPCODE)])   // 获取 X 寄存器对应的值
+#define VY          (chip8->register[Y(_OPCODE)])   // 获取 Y 寄存器对应的值
+#define _VF          (chip8->register[0xF])         // 获取 VF 寄存器对应的值
+#define _I           (chip8->index_register)        // 获取 I 索引寄存器对应的值
 /// ****************************************************************************** ///
 
 

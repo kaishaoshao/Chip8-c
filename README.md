@@ -2,7 +2,12 @@
 
 使用c语言和SDL2实现的chip8模拟器用于学习简单的计算机系统
 
-参考： [http://devernay.free.fr/hacks/chip8/C8TECH10.HTM](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM)
+参考
+
+ [http://devernay.free.fr/hacks/chip8/C8TECH10.HTM](http://devernay.free.fr/hacks/chip8/C8TECH10.HTM)
+
+[https://leer.moe/2024/02/06/chip8/]()
+
 
 ## Chip-8
 
