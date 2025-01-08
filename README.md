@@ -20,3 +20,8 @@
 
 
 如何使用项目
+
+
+待做：
+
+chip8_emulate_cycle(CHIP8 *chip8) 理解&& 优化

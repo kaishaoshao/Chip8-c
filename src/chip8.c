@@ -127,6 +127,7 @@ byte chip8_load_program(CHIP8 *chip8, const char *chip8_file)
     return 0;
 }
 
+// TODO:
 void chip8_emulate_cycle(CHIP8 *chip8)
 {
     // 取指
