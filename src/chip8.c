@@ -129,50 +129,139 @@ byte chip8_load_program(CHIP8 *chip8, const char *chip8_file)
 
 void chip8_emulate_cycle(CHIP8 *chip8)
 {
+    // 取指
     word opcode = (0xFF00 & (chip8->memory[chip8->pc] << 8)) 
         | chip8->memory[chip8->pc + 1];
+    // 保存
     chip8->opcode = opcode;
+    // 跳转 更新程序计数器
     chip8->pc += 2;
+    // 译码
     byte opcode_type = (0xF000 & opcode) >> 12;
+
     switch (opcode_type) {
         case 0x0:
+            if(opcode == 0x00E0)
+                OPCODE(00E0);
+            else if (opcode == 0x00EE)
+                OPCODE(00EE);
+            else 
+                break;
             break;
         case 0x1:
+            OPCODE(1NNN);
             break;
         case 0x2:
+            OPCODE(2NNN);
             break;
         case 0x3:
+            OPCODE(3XNN);
             break;
         case 0x4:
+            OPCODE(4XNN);
             break;
         case 0x5:
+            OPCODE(5XY0);
             break;
         case 0x6:
+            OPCODE(6XNN);
             break;
         case 0x7:
+            OPCODE(7XNN);
             break;
         case 0x8:
+            switch (N(opcode))
+            {
+            case 0x0:
+                OPCODE(8XY0);
+                break;
+            case 0x1:
+                OPCODE(8XY1);
+                break;
+            case 0x2:
+                OPCODE(8XY2);
+                break;
+            case 0x3:
+                OPCODE(8XY3);
+                break;
+            case 0x4:
+                OPCODE(8XY4);
+                break;
+            case 0x5:
+                OPCODE(8XY5);
+                break;
+            case 0x6:
+                OPCODE(8XY6);
+                break;
+            case 0x7:
+                OPCODE(8XY7);
+                break;
+            case 0xE:
+                OPCODE(8XYE);
+                break;
+            default:
+                break;
+            }
             break;
         case 0x9:
+            OPCODE(9XY0);
             break;
         case 0xA:
+            OPCODE(ANNN);
             break;
         case 0xB:
+            OPCODE(BNNN);
             break;
         case 0xC:
+            OPCODE(CXNN);
             break;
         case 0xD:
+            OPCODE(DXYN);
             break;
         case 0xE:
+            if (NN(_OPCODE) == 0x9E)
+                OPCODE(EX9E);
+            else if (NN(_OPCODE) == 0xA1)
+                OPCODE(EXA1);
+            else
+                break;
             break;
         case 0xF:
+            switch (NN(_OPCODE))
+            {
+            case 0x07:
+                OPCODE(FX07);
+                break;
+            case 0x0A:
+                OPCODE(FX0A);
+                break;
+            case 0x15:
+                OPCODE(FX15);
+                break;
+            case 0x1E:
+                OPCODE(FX1E);
+                break;
+            case 0x29:
+                OPCODE(FX29);
+                break;
+            case 0x33:
+                OPCODE(FX33);
+                break;
+            case 0x55:
+                OPCODE(FX55);
+                break;
+            case 0x65:
+                OPCODE(FX65);
+                break;
+            default:
+                fprintf(stderr, "Unknown opcode: 0x%04X\n", opcode);
+                break;
+            }
             break;
         default:
             fprintf(stderr, "Unknown opcode: 0x%04X\n", opcode);
             break;
     }
-
-
 }
 
 /**
