@@ -1,9 +1,36 @@
 #include "chip8.h"
 
-void opcode_00E0(CHIP8 *chip8){}
-void opcode_00EE(CHIP8 *chip8){}
-void opcode_1NNN(CHIP8 *chip8){}
-void opcode_2NNN(CHIP8 *chip8){}
+// 清屏
+void opcode_00E0(CHIP8 *chip8)
+{
+    memset(chip8->display, CHIP8_DISPLAY_BLACK, sizeof(chip8->display));
+}
+
+// 子程序返回  调用栈中弹出返回地址
+void opcode_00EE(CHIP8 *chip8)
+{
+    if (chip8->sp > 0)
+        chip8->pc = chip8->stack[--(chip8->sp)];
+    else 
+    {
+        printf("stack underflow\n");
+        exit(1);
+    }
+}
+
+// 无条件跳转
+void opcode_1NNN(CHIP8 *chip8)
+{
+    chip8->pc = NNN(_OPCODE);
+}
+
+// 调用子程序 压入调用栈中
+void opcode_2NNN(CHIP8 *chip8)
+{
+    chip8->stack[chip8->sp++] = chip8->pc;
+    chip8->pc = NNN(_OPCODE);
+}
+
 void opcode_3XNN(CHIP8 *chip8){}
 void opcode_4XNN(CHIP8 *chip8){}
 void opcode_5XY0(CHIP8 *chip8){}
