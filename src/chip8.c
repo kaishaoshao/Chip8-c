@@ -109,20 +109,20 @@ static void get_ch8_hex(byte *chip8_file_data, size_t chip8_file_size)
  */
 byte chip8_load_program(CHIP8 *chip8, const char *chip8_file)
 {
-    FIEL *fp = fopen(rom, "rb");
+    FILE *fp = fopen(chip8_file, "rb");
     long size =  get_chip8_file_size(fp);
-    if (fize > CHIP8_MEMORY_SIZE - CHIP8_MEMORY_START_ADDR) {
+    if (size > CHIP8_MEMORY_SIZE - CHIP8_MEMORY_START_ADDR) {
         fprintf(stderr, "ROM file size is too large\n");
         return -1;
     }
     
     byte *data = chip8->memory + CHIP8_MEMORY_START_ADDR; // 起始地址512
-    size_t read_size = fread(rom, 1, size, fp);
+    size_t read_size = fread((void*)chip8_file, 1, size, fp);
     if (read_size != size) {
         fprintf(stderr, "ROM file read error\n");
         return -1;
     }
-    get_ch8_hex(rom, size);
+    get_ch8_hex(data, size);
     fclose(fp);
     return 0;
 }

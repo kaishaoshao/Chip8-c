@@ -1,6 +1,7 @@
 #ifndef __CHIP8_H__
 #define __CHIP8_H__
 
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -114,7 +115,7 @@ enum system_state
 typedef struct chip8_system
 {
     byte memory[CHIP8_MEMORY_SIZE];  // 4 KB 内存 存储程序和数据
-    byte register[16];               // 16 个 8 位通用寄存器（V0-VF）
+    byte sregister[16];               // 16 个 8 位通用寄存器（V0-VF）
     word index_register;             // 6 位索引寄存器（I），用于存储内存地址。
     word pc;                         // 程序计数器，指向当前指令的地址。
     word opcode;                     // 当前操作码
