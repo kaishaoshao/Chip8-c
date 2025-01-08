@@ -1,6 +1,11 @@
 #ifndef __CHIP8_H__
 #define __CHIP8_H__
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
 /// ************************** Chip8-c运行频率和定时器 ****************************** ///
 // chip8 运行频率540Hz
 #define CHIP8_CYCLES_FREQ_HZ 540
@@ -128,7 +133,7 @@ typedef struct chip8_system
 
 /// *********************************chip8函数声明********************************* ///
 CHIP8 *chip8_init();                                    // 初始化chip8系统
-byte chip8_load_program(CHIP8 *chip8, const char *rom); // 加载程序
+byte chip8_load_program(CHIP8 *chip8, const char *chip8_file); // 加载程序
 void chip8_emulate_cycle(CHIP8 *chip8);                 // 模拟一个周期
 void chip8_timer(CHIP8 *chip8);                         // 执行一个CPU周期
 /// ****************************************************************************** ///
