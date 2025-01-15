@@ -1,4 +1,6 @@
 #include "chip8.h"
+#include "sdl.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -9,3 +11,6 @@ int main(int argc, char *argv[])
     free(chip8);
     return 0;
 }
+
+
+

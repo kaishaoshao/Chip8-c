@@ -115,7 +115,7 @@ enum system_state
 typedef struct chip8_system
 {
     byte memory[CHIP8_MEMORY_SIZE];  // 4 KB 内存 存储程序和数据
-    byte sregister[16];               // 16 个 8 位通用寄存器（V0-VF）
+    byte registers[16];               // 16 个 8 位通用寄存器（V0-VF）
     word index_register;             // 6 位索引寄存器（I），用于存储内存地址。
     word pc;                         // 程序计数器，指向当前指令的地址。
     word opcode;                     // 当前操作码
@@ -158,10 +158,10 @@ void chip8_timer(CHIP8 *chip8);                         // 执行一个CPU周期
 /// 操作码中的寄存器
 /// VF 是 CHIP-8 的特殊寄存器，通常用于存储标志位（如进位、借位）
 /// I  是 CHIP-8 的 16 位索引寄存器，通常用于存储内存地址
-#define VX          (chip8->register[X(_OPCODE)])   // 获取 X 寄存器对应的值
-#define VY          (chip8->register[Y(_OPCODE)])   // 获取 Y 寄存器对应的值
-#define _VF          (chip8->register[0xF])         // 获取 VF 寄存器对应的值
-#define _I           (chip8->index_register)        // 获取 I 索引寄存器对应的值
+#define VX(opcode) (chip8->registers[X(opcode)])        // 获取 X 寄存器对应的值
+#define VY(opcode) (chip8->registers[Y(opcode)])        // 获取 Y 寄存器对应的值
+#define _VF          (chip8->registers[0xF])           // 获取 VF 寄存器对应的值
+#define _I           (chip8->index_register)            // 获取 I 索引寄存器对应的值
 /// ****************************************************************************** ///
 
 
